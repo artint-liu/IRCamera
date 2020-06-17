@@ -39,21 +39,21 @@
 #include "AMG.h"
 
 #if defined(ARDUINO_FEATHER_ESP32) // Feather Huzzah32
-  #define TFT_CS         14
-  #define TFT_RST        15
-  #define TFT_DC         32
+#define TFT_CS 14
+#define TFT_RST 15
+#define TFT_DC 32
 
 #elif defined(ESP8266)
-  #define TFT_CS         4
-  #define TFT_RST        16                                            
-  #define TFT_DC         2
+#define TFT_CS 16
+#define TFT_RST 16
+#define TFT_DC 2
 
 #else
-  // For the breakout board, you can use any 2 or 3 pins.
-  // These pins will also work for the 1.8" TFT shield.
-  #define TFT_CS        10
-  #define TFT_RST        9 // Or set to -1 and connect to Arduino RESET pin
-  #define TFT_DC         8
+// For the breakout board, you can use any 2 or 3 pins.
+// These pins will also work for the 1.8" TFT shield.
+#define TFT_CS 10
+#define TFT_RST 9 // Or set to -1 and connect to Arduino RESET pin
+#define TFT_DC 8
 #endif
 
 // OPTION 1 (recommended) is to use the HARDWARE SPI pins, which are unique
@@ -67,7 +67,6 @@ Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 // For 1.14", 1.3", 1.54", and 2.0" TFT with ST7789:
 //Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
 
-
 // OPTION 2 lets you interface the display using ANY TWO or THREE PINS,
 // tradeoff being that performance is not as fast as hardware SPI above.
 //#define TFT_MOSI 11  // Data out
@@ -79,13 +78,10 @@ Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 // OR for the ST7789-based displays, we will use this call
 //Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
-
 //float p = 3.1415926;
 
 #define SDA_PIN 4
 #define SCL_PIN 5
-
-
 
 float get_point(float *p, uint8_t rows, uint8_t cols, int8_t x, int8_t y);
 void set_point(float *p, uint8_t rows, uint8_t cols, int8_t x, int8_t y, float f);
@@ -95,9 +91,8 @@ float cubicInterpolate(float p[], float x);
 float bicubicInterpolate(float p[], float x, float y);
 void interpolate_image(float *src, uint8_t src_rows, uint8_t src_cols, float *dest, uint8_t dest_rows, uint8_t dest_cols);
 
-                       
-
-void setup(void) {
+void setup(void)
+{
   delay(500);
   Serial.begin(115200);
   Serial.print(F("Hello! ST77xx TFT Test"));
@@ -123,89 +118,97 @@ void setup(void) {
 
   // OR use this initializer (uncomment) if using a 1.14" 240x135 TFT:
   //tft.init(135, 240);           // Init ST7789 240x135
-  
+
   // SPI speed defaults to SPI_DEFAULT_FREQ defined in the library, you can override it here
   // Note that speed allowable depends on chip and quality of wiring, if you go too fast, you
   // may end up with a black screen some times, or all the time.
   //tft.setSPISpeed(40000000);
-//
-//  Serial.println(F("Initialized"));
-//
-//  uint16_t time = millis();
-//  tft.fillScreen(ST77XX_BLACK);
-//  time = millis() - time;
-//
-//  Serial.println(time, DEC);
-//  delay(500);
-//
-//  // large block of text
-//  tft.fillScreen(ST77XX_BLACK);
-//  testdrawtext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_WHITE);
-//  delay(1000);
-//
-//  // tft print function!
-//  tftPrintTest();
-//  delay(4000);
-//
-//  // a single pixel
-//  tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
-//  delay(500);
-//
-//  // line draw test
-//  testlines(ST77XX_YELLOW);
-//  delay(500);
-//
-//  // optimized lines
-//  testfastlines(ST77XX_RED, ST77XX_BLUE);
-//  delay(500);
-//
-//  testdrawrects(ST77XX_GREEN);
-//  delay(500);
-//
-//  testfillrects(ST77XX_YELLOW, ST77XX_MAGENTA);
-//  delay(500);
-//
-//  tft.fillScreen(ST77XX_BLACK);
-//  testfillcircles(10, ST77XX_BLUE);
-//  testdrawcircles(10, ST77XX_WHITE);
-//  delay(500);
-//
-//  testroundrects();
-//  delay(500);
-//
-//  testtriangles();
-//  delay(500);
-//
-//  mediabuttons();
-//  delay(500);
-//
-//  Serial.println("done");
-//  delay(1000);
+  //
+  //  Serial.println(F("Initialized"));
+  //
+  //  uint16_t time = millis();
+  //  tft.fillScreen(ST77XX_BLACK);
+  //  time = millis() - time;
+  //
+  //  Serial.println(time, DEC);
+  //  delay(500);
+  //
+  //  // large block of text
+  //  tft.fillScreen(ST77XX_BLACK);
+  //  testdrawtext("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur adipiscing ante sed nibh tincidunt feugiat. Maecenas enim massa, fringilla sed malesuada et, malesuada sit amet turpis. Sed porttitor neque ut ante pretium vitae malesuada nunc bibendum. Nullam aliquet ultrices massa eu hendrerit. Ut sed nisi lorem. In vestibulum purus a tortor imperdiet posuere. ", ST77XX_WHITE);
+  //  delay(1000);
+  //
+  //  // tft print function!
+  //  tftPrintTest();
+  //  delay(4000);
+  //
+  //  // a single pixel
+  //  tft.drawPixel(tft.width()/2, tft.height()/2, ST77XX_GREEN);
+  //  delay(500);
+  //
+  //  // line draw test
+  //  testlines(ST77XX_YELLOW);
+  //  delay(500);
+  //
+  //  // optimized lines
+  //  testfastlines(ST77XX_RED, ST77XX_BLUE);
+  //  delay(500);
+  //
+  //  testdrawrects(ST77XX_GREEN);
+  //  delay(500);
+  //
+  //  testfillrects(ST77XX_YELLOW, ST77XX_MAGENTA);
+  //  delay(500);
+  //
+  //  tft.fillScreen(ST77XX_BLACK);
+  //  testfillcircles(10, ST77XX_BLUE);
+  //  testdrawcircles(10, ST77XX_WHITE);
+  //  delay(500);
+  //
+  //  testroundrects();
+  //  delay(500);
+  //
+  //  testtriangles();
+  //  delay(500);
+  //
+  //  mediabuttons();
+  //  delay(500);
+  //
+  //  Serial.println("done");
+  //  delay(1000);
 
   Wire.pins(SDA_PIN, SCL_PIN);
 
   // default settings
-  if (!amg.begin()) {
+  if (!amg.begin())
+  {
     Serial.println("Could not find a valid AMG88xx sensor, check wiring!");
-    while (1) { delay(1); }
+    while (1)
+    {
+      delay(1);
+    }
   }
-    
+
   Serial.println("-- Thermal Camera Test --");
+  Serial.printf("width:%d, height:%d\n", tft.width(), tft.height());
 }
 
-void loop() {
-//  tft.invertDisplay(true);
-//  delay(500);
-//  tft.invertDisplay(false);
-//  delay(500);
+void loop()
+{
+  //  tft.invertDisplay(true);
+  //  delay(500);
+  //  tft.invertDisplay(false);
+  //  delay(500);
   //read all the pixels
   amg.readPixels(pixels);
 
   Serial.print("[");
-  for(int i=1; i<=AMG88xx_PIXEL_ARRAY_SIZE; i++){
-    Serial.print(pixels[i-1]);
+  for (int i = 1; i <= AMG88xx_PIXEL_ARRAY_SIZE; i++)
+  {
+    Serial.print(pixels[i - 1]);
     Serial.print(", ");
-    if( i%8 == 0 ) Serial.println();
+    if (i % 8 == 0)
+      Serial.println();
   }
   Serial.println("]");
   Serial.println();
@@ -214,38 +217,47 @@ void loop() {
 
   int32_t t = millis();
   interpolate_image(pixels, AMG_ROWS, AMG_COLS, dest_2d, INTERPOLATED_ROWS, INTERPOLATED_COLS);
-  Serial.print("Interpolation took "); Serial.print(millis()-t); Serial.println(" ms");
+  Serial.print("Interpolation took ");
+  Serial.print(millis() - t);
+  Serial.println(" ms");
 
-  uint16_t boxsize = min(tft.width() / INTERPOLATED_COLS, tft.height() / INTERPOLATED_COLS);
-  
+  uint16_t boxsize = 5; // min(tft.width() / INTERPOLATED_COLS, tft.height() / INTERPOLATED_COLS);
+
   drawpixels(dest_2d, INTERPOLATED_ROWS, INTERPOLATED_COLS, boxsize, boxsize, false);
 
-  //delay(50);
- }
+  delay(100);
+}
 
-void drawpixels(float *p, uint8_t rows, uint8_t cols, uint8_t boxWidth, uint8_t boxHeight, boolean showVal) {
+void drawpixels(float *p, uint8_t rows, uint8_t cols, uint8_t boxWidth, uint8_t boxHeight, boolean showVal)
+{
   int colorTemp;
-  for (int y=0; y<rows; y++) {
-    for (int x=0; x<cols; x++) {
+  for (int y = 0; y < rows; y++)
+  {
+    for (int x = 0; x < cols; x++)
+    {
       float val = get_point(p, rows, cols, x, y);
-      if(val >= MAXTEMP) colorTemp = MAXTEMP;
-      else if(val <= MINTEMP) colorTemp = MINTEMP;
-      else colorTemp = val;
-      
+      if (val >= MAXTEMP)
+        colorTemp = MAXTEMP;
+      else if (val <= MINTEMP)
+        colorTemp = MINTEMP;
+      else
+        colorTemp = val;
+
       uint8_t colorIndex = map(colorTemp, MINTEMP, MAXTEMP, 0, 255);
       colorIndex = constrain(colorIndex, 0, 255);
       //draw the pixels!
       uint16_t color;
       color = val * 2;
-      tft.fillRect(40+boxWidth * x, boxHeight * y, boxWidth, boxHeight, camColors[colorIndex]);
-        
-      if (showVal) {
-        tft.setCursor(boxWidth * y + boxWidth/2 - 12, 40 + boxHeight * x + boxHeight/2 - 4);
+      tft.fillRect(boxWidth * x, boxHeight * y, boxWidth, boxHeight, camColors[colorIndex]);
+
+      if (showVal)
+      {
+        tft.setCursor(boxWidth * y + boxWidth / 2 - 12, 40 + boxHeight * x + boxHeight / 2 - 4);
         tft.setTextColor(ST77XX_WHITE);
         tft.setTextSize(1);
-        tft.print(val,1);
+        tft.print(val, 1);
       }
-    } 
+    }
   }
 }
 
