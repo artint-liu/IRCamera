@@ -1,8 +1,8 @@
 //low range of the sensor (this will be blue on the screen)
-#define MINTEMP 20
+#define MINTEMP 28
 
 //high range of the sensor (this will be red on the screen)
-#define MAXTEMP 28
+#define MAXTEMP 40
 
 extern uint16_t camColors[];
 
